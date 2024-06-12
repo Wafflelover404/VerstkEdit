@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    	label {
+		  display: block;
+		  font:
+		    1rem 'Fira Sans',
+		    sans-serif;
+		    color: white;
+		}
+
+		input,
+		label {
+		  margin: 0.4rem 0;
+		}
+
+    	.pickfile {
+    		position: relative;
+    		padding-bottom: 5%;
+    	}
+
+    	.Menu {
+    		width: 15%;
+    		height: 100%;
+    		right: 0;
+    		position: absolute;
+    		background-color: black;
+    	}
+
+    	.DisplayedHTML {
+    		width: 85%;
+    		height: 100%;
+    		left: 0;
+    		position: absolute;
+    	}
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    }
+    </style>
+</head>
+<body>
+    <iframe id="display" class="DisplayedHTML" src="page.html"></iframe>
+    <div class="Menu">
+    	<label for="file-input">Choose a File for an edit</label>
+		<input type="file" id="file-input" name="avatar" accept=".html"/>
+    </div>
+
+    <script>
+    	window.onload = function() {
+	    	document.getElementById('display').src = "page.html";
+		};
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var contents = e.target.result;
+                document.getElementById('display').srcdoc = contents;
+            };
+            reader.readAsText(file);
+        }, false);
+    </script>
+</body>
+</html> 
