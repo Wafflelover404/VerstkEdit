@@ -42,6 +42,44 @@
             height: 100vh;
             margin: 0;
         }
+
+        textarea {
+          position: relative;
+          width: 80%;
+          height: 40%;
+          padding: 12px 20px;
+          box-sizing: border-box;
+          border: 2px solid #ccc;
+          border-radius: 4px;
+          background-color: #f8f8f8;
+          font-size: 16px;
+          resize: none;
+          left: 10%;
+        }
+
+        label {
+            position: relative;
+            left: 10%;
+        }
+        input {
+            position: relative;
+            left: 10%;
+        }
+
+        .SubmitChanges {
+            position: relative;
+            left: 10%;
+            top: 10px;
+        }
+
+        .Download {
+            position: relative;
+            right: 10%;
+            top: 10px;
+        }
+
+        #SubmitChanges {float:left;}
+        #download {float:right;}
     }
     </style>
 </head>
@@ -50,12 +88,13 @@
     <div class="Menu">
     	<label for="file-input">Choose a File for an edit</label>
 		<input type="file" id="file-input" name="avatar" accept=".html"/>
+        <textarea class="editmenu" id="editmenu"></textarea>
+        <button class="SubmitChanges" id="submit">Submit</button>
+        <button class="Download" id="download">Download</button>
+
     </div>
 
-    <script>
-    	window.onload = function() {
-	    	document.getElementById('display').src = "page.html";
-		};
+        <script>
         document.getElementById('file-input').addEventListener('change', function(e) {
             var file = e.target.files[0];
             if (!file) {
@@ -65,9 +104,35 @@
             reader.onload = function(e) {
                 var contents = e.target.result;
                 document.getElementById('display').srcdoc = contents;
+                document.getElementById('editmenu').value = contents;
             };
             reader.readAsText(file);
-        }, false);
+        });
+
+        // Update iframe content on button click
+        document.getElementById('submit').addEventListener('click', function() {
+            var updatedContent = document.getElementById('editmenu').value;
+            document.getElementById('display').srcdoc = updatedContent;
+        });
+
+        document.getElementById('download').addEventListener('click', function() {
+            var totalContent = document.getElementById('display').srcdoc;
+            // Create a file and put the content, name, and type
+            var file = new File(["\ufeff" + totalContent], 'index.html', {type: "text/plain;charset=UTF-8"});
+
+            // Create an ObjectURL in order to download the created file
+            var url = window.URL.createObjectURL(file);
+
+            // Create a hidden link, set the href, and click it
+            var a = document.createElement("a");
+            a.style = "display: none";
+            a.href = url;
+            a.download = file.name;
+            document.body.appendChild(a); // Append the anchor to the body
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a); // Clean up and remove the anchor
+        });
     </script>
 </body>
 </html> 
