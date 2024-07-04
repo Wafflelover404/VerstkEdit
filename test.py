@@ -1,7 +1,7 @@
 import streamlit as st
 import assistant
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="centered")
 
 if 'hf_token' not in st.session_state:
     st.session_state.hf_token = ""
