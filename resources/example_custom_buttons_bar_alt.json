@@ -47,8 +47,8 @@
     "style": {"bottom": "20%", "right": "0.4rem"}
   },
   {
-    "name": "Assist",
-    "feather": "Coffee",
+    "name": "Ai Coder",
+    "feather": "Slack",
     "primary": true,
     "hasText": true,
     "commands": ["assistant"],
