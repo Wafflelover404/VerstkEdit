@@ -2,7 +2,6 @@ import json
 import streamlit as st
 from code_editor import code_editor
 import base64
-import assistant
 
 def auto_download_html(object_to_download, download_filename):
     b64 = base64.b64encode(object_to_download.encode()).decode()
@@ -21,7 +20,7 @@ def auto_download_html(object_to_download, download_filename):
         document.body.removeChild(a);
     }});
     </script>
-    </head>1
+    </head>
     <body>
     <p>Your download should start automatically. If it doesn't, please <a id="downloadLink" href="data:text/html;base64,{b64}" download="{download_filename}">click here</a>.</p>
     </body>
@@ -118,49 +117,3 @@ if uploaded_file is not None:
     if response_dict['type'] == "saved":
         print("Downloading !!!")
         st.components.v1.html(auto_download_html(response_dict['text'], "output.html"), height=0, width=0)
-
-    menu1, menu2 = st.columns(2)
-
-    with menu1:
-        if 'hf_token' not in st.session_state:
-            st.session_state.hf_token = ""
-
-        css = st.markdown("""
-        <style>
-            .st-c2, .st-c3, .st-c4, .st-c7, .st-c8, .st-c9, .st-ca, .st-cb, .st-cc, .st-cd, .st-cz, .st-at, .st-d0, .st-dl, .st-ch, .st-ci, .st-cj, .st-ck, .st-cl, .st-cm, .st-cn, .st-co, .st-aj, .st-ak, .st-al, .st-am, .st-cp, .st-cq, .st-cr, .st-cs, .st-an, .st-ao, .st-ap, .st-aq, .st-ct, .st-cu, .st-cv, .st-cw {
-                width: 100%;
-            }
-
-            .st-emotion-cache-15hul6a ef3psqc12 {
-                width: 100%;
-            }       
-        </style>
-        """, unsafe_allow_html=True)
-
-        with st.popover("AI assistant menu"):
-            btn1, btn2 = st.columns(2)
-            
-            with btn1:
-                with st.expander('Assistant configuration'):
-                    st.markdown("Configure your HuggingFace token to use AI.", help="User Access Tokens are the preferred way to authenticate an application or notebook to Hugging Face services. You can manage your access tokens in your settings.")
-                    input_token = st.text_area("Enter your HuggingFace token 🤗")
-                    if st.button("Submit !"):
-                        st.session_state.hf_token = input_token
-                        st.write(f"Your current HuggingFace token is: {st.session_state.hf_token}")
-            
-            with btn2:
-                with st.expander("Assistant usage"):
-                    st.markdown("Ask the assistant any coding-related questions. The assistant has your code as context for your request.")
-                    request = st.text_area("Input your coding question")
-                    if st.button("Submit!"):
-                        print("token: ", st.session_state.hf_token)
-                        print("query: ", request)
-                        try:
-                            response = assistant.send(request, st.session_state.hf_token)
-                            if response != "Error":
-                                print("Text writing successfully!", response)
-                                st.write(f"Ai response: {response}")
-                            else:
-                                print("An error occurred while communicating with TextAi.")
-                        except Exception as e:
-                            print(f"An error occurred: {e}")
