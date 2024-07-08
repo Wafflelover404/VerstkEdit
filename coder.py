@@ -8,17 +8,9 @@ context = False
 
 st.set_page_config(layout="centered")
 diff_result = ""
-
-UserCode = """
-<!DOCTYPE html>
-<html>
-    
-<body>
-    <h1>My First Heading</h1>
-    <p>My first paragraph.</p>
-</body>
-</html>
-"""
+st.header("VerstkEdit Ai test.")
+st.subheader("User's code:")
+UserCode = st.text_area("")
 
 css = st.markdown("""
 <style>
