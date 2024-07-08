@@ -10,6 +10,7 @@ st.set_page_config(layout="centered")
 diff_result = ""
 st.header("VerstkEdit Ai test.")
 st.subheader("User's code:")
+st.text("(unnecessary)")
 UserCode = st.text_area("")
 
 css = st.markdown("""
